@@ -21,4 +21,3 @@
 #     num = my_num * n
 #     print(f"{my_num} * {n} = {num}")
 
-#4-3
