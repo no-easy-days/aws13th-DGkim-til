@@ -1,0 +1,11 @@
+{
+  "name": "jeff",
+  "email": "[jeff@example.com](mailto:jeff@example.com)",
+  "age": 30,
+  "is_active": true,
+  "skills": [
+    "Python",
+    "JavaScript",
+    "SQL"
+  ]
+}

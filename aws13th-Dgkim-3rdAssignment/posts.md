@@ -1,10 +1,332 @@
 posts(게시글)
 
-1. 게시글 목록 조회 
-2. 게시글 검색
-3. 게시글 정렬
-4. 게시글 상세 조회
-5. 게시글 작성
-6. 게시글 수정
-7. 게시글 삭제
-8. 내가 쓴 게시글 목록
+1.게시글 목록 조회
+GET  /posts
+헤더
+
+응답
+
+2.게시글 검색
+GET  /posts?search=keyword
+헤더
+
+응답
+
+
+3.게시글 정렬
+GET  /posts?sort=fild
+헤더
+
+응답
+
+
+4.게시글 상세 조회
+GET  /posts/{postid}
+헤더
+
+응답
+
+
+5.게시글 작성
+POST  /posts
+헤더
+
+응답
+
+
+6.게시글 수정
+PUT  /posts/{postidid}
+헤더
+
+응답
+
+
+7.게시글 삭제
+DELETE  /posts/{id}
+헤더
+
+응답
+
+
+8.내가 쓴 게시글 목록
+
+
+
+
+
+
+GET  /posts/me/posts
+헤더
+
+응답
+
+
+
+**요약:** `posts` 리소스를 중심으로 REST API를 설계하면, 목록 조회·검색·정렬·상세 조회·작성·수정·삭제·내가 쓴 글 조회까지 모두 일관된 엔드포인트로 표현할 수 있습니다. `GET /posts`는 조회 계열, `POST /posts`는 작성, `PUT/PATCH /posts/{id}`는 수정, `DELETE /posts/{id}`는 삭제, `GET /users/me/posts`는 본인 글 조회로 구분됩니다.  
+
+---
+
+## 📌 Posts 리소스 REST API 설계
+
+### 1. 게시글 목록 조회
+- **Endpoint**:  
+  ```http
+  GET /posts
+  ```
+- **로직**: 전체 게시글 목록 반환. 페이징(`?page=1&limit=20`) 지원.
+
+---
+
+### 2. 게시글 검색
+- **Endpoint**:  
+  ```http
+  GET /posts?search=keyword
+  ```
+- **로직**: 제목/내용에 `keyword`가 포함된 게시글 목록 반환.
+
+---
+
+### 3. 게시글 정렬
+- **Endpoint**:  
+  ```http
+  GET /posts?sort=createdAt
+  GET /posts?sort=likes
+  ```
+- **로직**: 지정된 필드 기준으로 정렬된 게시글 목록 반환.
+
+---
+
+### 4. 게시글 상세 조회
+- **Endpoint**:  
+  ```http
+  GET /posts/{id}
+  ```
+- **로직**: 특정 게시글의 상세 정보 반환.
+
+---
+
+### 5. 게시글 작성
+- **Endpoint**:  
+  ```http
+  POST /posts
+  ```
+- **로직**: 요청 바디에 제목, 내용, 작성자 정보 포함 → 새 게시글 생성.
+
+---
+
+### 6. 게시글 수정
+- **Endpoint**:  
+  ```http
+  PUT /posts/{id}
+  PATCH /posts/{id}
+  ```
+- **로직**: 특정 게시글을 전체 수정(PUT) 또는 일부 수정(PATCH).
+
+---
+
+### 7. 게시글 삭제
+- **Endpoint**:  
+  ```http
+  DELETE /posts/{id}
+  ```
+- **로직**: 특정 게시글 삭제. 작성자 본인 또는 관리자 권한 필요.
+
+---
+
+### 8. 내가 쓴 게시글 목록 조회
+- **Endpoint**:  
+  ```http
+  GET /users/me/posts
+  ```
+- **로직**: 토큰 기반 인증 후 본인이 작성한 게시글 목록 반환.
+
+---
+
+## 🔹 요약 표
+
+| 기능                 | 메서드 | 엔드포인트             | 로직 요약 |
+|----------------------|--------|------------------------|-----------|
+| 게시글 목록 조회     | GET    | /posts                 | 전체 게시글 목록 반환 |
+| 게시글 검색          | GET    | /posts?search=keyword  | 키워드 포함 게시글 조회 |
+| 게시글 정렬          | GET    | /posts?sort=field      | 특정 필드 기준 정렬 |
+| 게시글 상세 조회     | GET    | /posts/{id}            | 특정 게시글 상세 조회 |
+| 게시글 작성          | POST   | /posts                 | 새 게시글 생성 |
+| 게시글 수정          | PUT/PATCH | /posts/{id}         | 특정 게시글 수정 |
+| 게시글 삭제          | DELETE | /posts/{id}            | 특정 게시글 삭제 |
+| 내가 쓴 게시글 조회  | GET    | /users/me/posts        | 본인 작성 글 목록 조회 |
+
+---
+
+## 📌 다이어그램 구조 (텍스트 표현)
+
+```
+               ┌───────────────┐
+               │    /posts      │
+               └───────┬───────┘
+                       │
+   ┌───────────────────┼─────────────────────┐
+   │                   │                     │
+목록 조회        검색/정렬              작성 (POST)
+(GET /posts)    (GET /posts?...)       (POST /posts)
+   │                   │                     │
+   └───── 상세 조회 (GET /posts/{id}) ───────┘
+                       │
+             ┌─────────┴─────────┐
+             │                   │
+        수정 (PUT/PATCH /posts/{id}) 
+        삭제 (DELETE /posts/{id})
+
+별도 경로:
+GET /users/me/posts → 내가 쓴 게시글 목록
+```
+
+---
+
+👉 이렇게 설계하면 `posts` 리소스를 중심으로 CRUD + 검색/정렬 + 본인 글 조회까지 RESTful하게 일관된 구조를 갖출 수 있습니다.  
+
+dg님, 원하시면 이걸 **Swagger/OpenAPI 스펙**으로 변환해서 바로 문서화된 형태로 보여드릴 수도 있어요.
+
+
+
+
+지금까지 논의한 **REST API 설계 방식 3가지 비교** 내용을 한눈에 보기 좋게 마크다운(`.md`) 형식으로 정리해 드립니다. 아래 내용을 복사해서 `.md` 파일로 저장하시면 됩니다.
+
+---
+
+# [Study] REST API 설계: 사용자 포스트 목록 조회 방식 비교
+
+본 문서는 로그인한 유저의 포스트 목록을 가져오는 API 설계의 3가지 핵심 패턴(Path Parameter, Alias, Query Parameter)을 FastAPI와 Vue.js 예시와 함께 비교합니다.
+
+---
+
+## 1. 세 가지 설계 방식 비교 요약
+
+| 구분 | **① Path Parameter** | **② Alias (Virtual)** | **③ Query Parameter** |
+| --- | --- | --- | --- |
+| **API 엔드포인트** | `/users/{user_id}/posts` | `/users/me/posts` | `/posts?userId={id}` |
+| **의미** | 특정 ID 유저의 자원 탐색 | **인증된 나**의 자원 탐색 | 전체 글 중 특정 유저로 **필터링** |
+| **식별 데이터** | URL 경로상의 ID | **인증 토큰(JWT)** | URL 쿼리 스트링의 ID |
+| **주요 용도** | 타인 프로필 방문 시 | **마이페이지(내 정보)** | 게시판 검색 및 목록 필터링 |
+
+---
+
+## 2. 기술 스택별 코드 구현 (FastAPI & Vue.js)
+
+### ① Path Parameter (`/users/{id}/posts`)
+
+가장 표준적인 계층 구조 방식입니다.
+
+* **FastAPI**: `user_id`를 경로에서 직접 받습니다.
+* **Vue.js**: 호출 시 대상의 ID를 URL에 포함해야 합니다.
+
+```python
+# Backend (FastAPI)
+@app.get("/users/{user_id}/posts")
+async def get_user_posts(user_id: int):
+    return [p for p in db if p["author_id"] == user_id]
+
+```
+
+---
+
+### ② Alias (`/users/me/posts`) - **강력 추천**
+
+로그인한 사용자 본인의 데이터를 다룰 때 가장 보안성이 높고 편리합니다.
+
+* **FastAPI**: `Depends()`를 통해 토큰에서 유저 정보를 추출합니다.
+* **Vue.js**: 내 ID를 몰라도 되며, 헤더에 토큰만 담아 보냅니다.
+
+```python
+# Backend (FastAPI)
+@app.get("/users/me/posts")
+async def get_my_posts(current_user: User = Depends(get_current_user)):
+    # 토큰에서 꺼낸 내 ID(current_user.id)를 사용
+    return [p for p in db if p["author_id"] == current_user.id]
+
+```
+✅  ❌
+---
+
+### ③ Query Parameter (`/posts?userId={id}`)
+
+전체 리소스에서 조건을 걸어 필터링하는 방식입니다.
+
+* **FastAPI**: 파라미터가 없으면 전체 목록, 있으면 필터링된 목록을 반환합니다.
+* **Vue.js**: `params` 객체를 이용해 요청합니다.
+
+```python
+# Backend (FastAPI)
+@app.get("/posts")
+async def filter_posts(userId: int = None):
+    if userId:
+        return [p for p in db if p["author_id"] == userId]
+    return db # 전체 글 반환
+
+```
+
+---
+
+## 3. 실무 설계 가이드라인
+
+1. **나의 데이터 관리**: 보안과 편의성을 위해 `/users/me/...` 형식을 우선적으로 사용하세요.
+2. **타인의 데이터 조회**: `/users/{id}/posts` 형식을 사용하되, 비공개 글 여부 등 권한 체크(ACL) 로직을 서버에 반드시 포함하세요.
+3. **복합 검색/필터링**: 작성자 외에도 날짜, 제목 등 여러 조건이 붙는다면 `/posts?key=value` 형태의 쿼리 스트링 방식이 적합합니다.
+
+---
+
+**팁:** 이 내용을 저장한 `.md` 파일을 **VS Code**에서 여신 후 `Ctrl + Shift + V`를 누르면 예쁘게 렌더링된 화면으로 보실 수 있습니다.
+
+이 정리된 내용 외에 추가로 파일에 포함하고 싶은 개념이나 구현 코드가 더 있으신가요?
+
+좋은 질문이에요 🙂  
+
+`GET /posts?userId={my_id}` 같은 방식으로 설계하는 건 **REST에서 흔히 쓰이는 패턴**이고, `/users/me/posts`와 비교했을 때 장단점이 있습니다.
+
+---
+
+### 🔹 `/posts?userId={my_id}` 방식
+- **의미**: 게시글 리소스 집합(`/posts`)을 조회하면서 특정 사용자 ID로 필터링.  
+- **장점**:
+  - **일관성**: 모든 게시글 조회는 `/posts`에서 시작 → 검색, 정렬, 필터링을 쿼리 파라미터로 처리.  
+  - **확장성**: `?userId=123&sort=createdAt&search=keyword`처럼 다양한 조건을 조합 가능.  
+  - **표준적**: REST API에서 필터링은 쿼리 파라미터로 처리하는 게 일반적.  
+- **단점**:
+  - 클라이언트가 자신의 `id`를 알아야 함.  
+  - 보안상 `id`를 노출하거나 잘못된 `id`를 넣을 위험이 있음.  
+  - 직관성은 `/users/me/posts`보다 떨어짐.
+
+---
+
+### 🔹 `/users/me/posts` 방식
+- **의미**: 현재 로그인한 사용자(User)의 하위 리소스로 게시글을 표현.  
+- **장점**:
+  - **직관적**: "내 글"이라는 의미가 바로 드러남.  
+  - **보안성**: 클라이언트가 `id`를 몰라도 토큰만 있으면 접근 가능.  
+  - **명확한 계층 구조**: User → Posts 관계를 URI로 표현.  
+- **단점**:
+  - `/posts` 중심의 일관성은 약해짐.  
+  - 다른 필터링 조건과 조합하기는 상대적으로 덜 유연.
+
+---
+
+### 🔹 로직상 차이
+| 구분 | `/posts?userId={id}` | `/users/me/posts` |
+|------|----------------------|-------------------|
+| **리소스 중심** | Posts 리소스 중심 | Users 리소스 중심 |
+| **필터링 방식** | 쿼리 파라미터 | 계층 구조 |
+| **사용자 경험** | ID 필요 | 토큰만 있으면 됨 |
+| **보안** | ID 노출 위험 | 안전, 직관적 |
+| **확장성** | 다양한 조건 조합 가능 | 특정 사용자 글 조회에 특화 |
+
+---
+
+### 🔹 결론
+- **일관성·확장성**을 중시하면 `/posts?userId={id}`  
+- **직관성·보안성**을 중시하면 `/users/me/posts`  
+- 실무에서는 **두 가지를 병행**하기도 합니다:  
+  - 일반 조회/필터링 → `/posts?userId=123`  
+  - 내 글 조회 → `/users/me/posts`
+
+---
+
+👉 즉, `/posts?userId={my_id}`는 **필터링 패턴**으로 자연스럽지만, "내 글"이라는 특별한 의미를 직관적으로 표현하려면 `/users/me/posts`가 더 적합합니다.  

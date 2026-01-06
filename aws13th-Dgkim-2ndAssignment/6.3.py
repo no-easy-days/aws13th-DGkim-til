@@ -61,27 +61,68 @@
 # my_todo.show_tasks()
 
 #6.4
+#
+# from dataclasses import dataclass
+#
+# @dataclass
+# class DatabaseConfig:
+#     def __init__(self,host,port,username,password,database):
+#         self.host = host
+#         self.port = port
+#         self.username = username
+#         self.password = password
+#         self.database = database
+#         self.timeout = 30
+#         self.pool_size = 5
+#
+# config = DatabaseConfig(
+#     host="localhost",
+#     port=3306,
+#     username="admin",
+#     password="secret123",
+#     database="myapp"
+# )
+#
+# print(config)
+#
 
-from dataclasses import dataclass
 
-@dataclass
-class DatabaseConfig:
-    def __init__(self,host,port,username,password,database):
-        self.host = host
-        self.port = port
-        self.username = username
-        self.password = password
-        self.database = database
-        self.timeout = 30
-        self.pool_size = 5
-
-config = DatabaseConfig(
-    host="localhost",
-    port=3306,
-    username="admin",
-    password="secret123",
-    database="myapp"
-)
-
-print(config)
-
+#6.5
+# class Ec2instance:
+#     def __init__(self,instance_id,name):
+#         self.instance_id  = instance_id
+#         self.name = name
+#         self.status = "stopped"
+#     def start(self):
+#         self.status = "running"
+#     def stop(self):
+#         self.status = "stopped"
+#
+# class Ec2manager:
+#     def __init__(self):
+#         self.instance_list = []
+#
+#     def add_instance(self,instance):
+#         self.instance_list.append(instance)
+#     def start_all(self):
+#         for instance in self.instance_list:
+#             instance.start()
+#     def stop_all(self):
+#         for instance in self.instance_list:
+#             instance.stop()
+#     def get_runnung_count(self):
+#         runnung_count = sum(1 for i in self.instance_list if i.status == "running")
+#         return runnung_count
+#
+# web = Ec2instance("i-001", "web-server")
+# db = Ec2instance("i-002", "db-server")
+# cache = Ec2instance("i-003", "cache-server")
+#
+# manager = Ec2manager()
+# manager.add_instance(web)
+# manager.add_instance(db)
+# manager.add_instance(cache)
+#
+# manager.start_all()
+# print(manager.get_runnung_count())
+#

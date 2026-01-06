@@ -1,17 +1,23 @@
 import csv
 import json
 
+
+#1
 # with open('users.csv','r',encoding='utf-8') as csvfile:
 #     reader = csv.DictReader(csvfile)
 #     for row in reader:
 #         print(row['이름'],row['직업'])
 
+
+#2
 # with open('users.csv','r',encoding='utf-8') as csvfile:
 #     reader = csv.DictReader(csvfile)
 #     for row in reader:
 #         if int(row['나이']) >= 30:
 #             print(row['이름'],row['나이'])
 
+
+#3
 # students = [
 #     {'학번': 'S001', '이름': '김민수', '학과': '컴퓨터공학'},
 #     {'학번': 'S002', '이름': '이수진', '학과': '전자공학'},
@@ -24,7 +30,7 @@ import json
 #     writer.writeheader()
 #     writer.writerows(students)
 
-
+#4
 # with open('config.json', 'r', encoding='utf-8') as f:
 #     config = json.load(f)
 #

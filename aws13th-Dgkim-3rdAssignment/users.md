@@ -30,7 +30,7 @@ Body
   "password": "securePassword123"
 }
 
-응답 - 200 OK
+응답 - 200 ok
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6...",
   "tokenType": "Bearer",
@@ -38,13 +38,43 @@ Body
 }
 
 
-
-
-
-
 3.내 프로필 조회 
-4.프로필 수정 
-PUT /users
-5.회원 탈퇴 
-6.특정 회원 조회
+GET /users/id
 
+헤더 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6.
+
+응답 - 200 ok
+
+4.프로필 수정 
+PUT /users/id
+
+헤더
+
+바디
+ 
+응답 - 200 ok
+
+5.회원 탈퇴 
+DELETE /users/id
+
+헤더
+
+응답
+
+6.특정 회원 조회
+GET /userd/{id}
+
+헤더 
+
+응답 - 200 ok
+
+{
+  "status": "success",
+  "data": {
+    "id": "res_123",
+    "name": "리소스 이름",
+    "description": "리소스 설명",
+    "created_at": "2026-01-04T12:00:00Z",
+    "updated_at": "2026-01-04T12:00:00Z"
+  }
+}
