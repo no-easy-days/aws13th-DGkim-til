@@ -1,4 +1,4 @@
-#1
+# 1
 cities = [
     {"name": "서울", "population": 9700000},
     {"name": "부산", "population": 3400000},
@@ -12,14 +12,14 @@ for city in sorted_cities:
     print(f"{city['name']}")
     print(f"{city['population']}")
 
-#2
+# 2
 str_numbers = ["10", "20", "30", "40", "50"]
 
 result = list(map(lambda x: x + 100, map(int, str_numbers)))
 print(result)
 
 
-#3
+# 3
 products = [
     {"name": "노트북", "discount": 15},
     {"name": "마우스", "discount": 25},
