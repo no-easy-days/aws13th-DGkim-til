@@ -3,14 +3,14 @@ import json
 
 
 # 1
-with open('users.csv','r',encoding='utf-8') as csvfile:
+with open('users.csv', 'r', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         print(row['이름'],row['직업'])
 
 
 # 2
-with open('users.csv','r',encoding='utf-8') as csvfile:
+with open('users.csv', 'r', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         if int(row['나이']) >= 30:

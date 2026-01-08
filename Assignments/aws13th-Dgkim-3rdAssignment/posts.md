@@ -318,6 +318,7 @@ async def filter_posts(userId: int = None):
 | **보안** | ID 노출 위험 | 안전, 직관적 |
 | **확장성** | 다양한 조건 조합 가능 | 특정 사용자 글 조회에 특화 |
 
+
 ---
 
 ### 🔹 결론
@@ -330,3 +331,4 @@ async def filter_posts(userId: int = None):
 ---
 
 👉 즉, `/posts?userId={my_id}`는 **필터링 패턴**으로 자연스럽지만, "내 글"이라는 특별한 의미를 직관적으로 표현하려면 `/users/me/posts`가 더 적합합니다.  
+

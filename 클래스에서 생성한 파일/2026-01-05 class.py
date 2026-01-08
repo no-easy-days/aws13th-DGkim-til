@@ -1,5 +1,5 @@
 """
-2026-01-05.md 수업 - 웹, http
+2026-01-05 웹 및 rest api 수업(네트워크 기초 일부).md 수업 - 웹, http
 """
 # from http.server import HTTPServer, BaseHTTPRequestHandler
 # import json
