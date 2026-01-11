@@ -38,7 +38,7 @@ GET  /posts/me/posts
 ## 1.댓글 목록 조회
 GET /posts/{postid}/commets
 ## 2.댓글 작성
-/posts/{postId}/comments
+POST /posts/{postId}/comments
 댓글은 포스트에 종속되어 있기 때문에 posts리소스에 묶는게 논리적
 ## 3.댓글 수정
 PUT /comments/{commentid}
